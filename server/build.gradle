@@ -1,0 +1,65 @@
+group = 'com.ost.cmarker'
+version = 1.0
+
+apply plugin: 'eclipse-wtp'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+//GRADLE-1884: override the default output dir
+eclipse {
+    classpath {
+        defaultOutputDir = file('build/classes')
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://maven.springframework.org/milestone'
+        url 'http://gmaps4jsf.googlecode.com/svn/trunk/gmaps4jsf-repo'
+    }
+
+}
+
+dependencies {
+    runtime	'org.codehaus.jackson:jackson-mapper-asl:1.8.3'
+//            'org.glassfish:javax.faces:2.1.6'
+            //'javax:javaee-api:6.0',
+            //'javax.servlet:jstl:1.2',
+            //'javax.servlet:servlet-api:2.5',
+            //'com.sun.el:el-ri:1.0'
+            fileTree(dir: 'src/main/webapp/WEB-INF/lib', includes: ['*.jar'])
+
+    compile 'org.springframework:spring-webmvc:3.1.0.RELEASE',
+            'ch.qos.logback:logback-classic:1.0.0',
+            'commons-lang:commons-lang:2.5',
+            'commons-configuration:commons-configuration:1.8',
+            'org.hibernate:hibernate-validator:4.2.0.Final',
+//            'com.googlecode.gmaps4jsf:gmaps4jsf-core:1.1.4',
+//            'javax.faces:jsf-api:2.1'
+//            'com.sun.faces:jsf-api:2.1.7',
+//            'com.sun.faces:jsf-impl:2.1.7',
+            'org.iq80.leveldb:leveldb:0.3'
+            //'javax.validation:validation-api:1.0.0.GA'
+
+    testCompile  'org.springframework:spring-test:3.1.0.RELEASE',
+                 'junit:junit:4.10'
+
+}
+
+task integrationTest(type: Test) {
+    include '**/*IT.*'
+}
+
+test {
+    testLogging.showStandardStreams = true
+    exclude '**/*IT.*'
+}
+
+[jettyRun, jettyRunWar]*.doFirst {
+    httpPort = 9090
+    port = 9090
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:m="http://code.google.com/p/gmaps4jsf/"
+      xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+<ui:composition>
+
+    <head>
+        <div id="banner" style="padding:30px"><img src="images/logo.png"></img></div>
+        <style type="text/css">
+            #menu {  }
+            #menu ul { padding-bottom:15px;list-style:none; }
+            #menu ul li { display:inline; float:left; margin-bottom:20px; }
+            #menu ul li a { padding:12px; background-color: rgba(62,62,62,0.8); text-decoration: none; font: 13px Helvetica, Sans-Serif; color: white;
+            text-shadow: #eee 0px 0px 2px; }
+            #menu ul li:first-child a { -moz-border-radius-topleft:12px; -webkit-border-top-left-radius:12px; border-top-left-radius:12px; }
+            #menu ul li:last-child a { -moz-border-radius-topright:12px; -webkit-border-top-right-radius:12px; border-top-right-radius:12px;}
+            #menu ul li a.active { background: rgb(122,122,122) !important; }
+            #menu ul li a:hover { -moz-box-shadow: 0 -5px 10px #777; -webkit-box-shadow: 0 -5px 10px #777;
+            background: -webkit-gradient(
+            linear, right bottom, left top, color-stop(0, rgb(239,239,239)), color-stop(0.72, rgb(187,187,187))) !important;
+            background: -moz-linear-gradient(
+            right bottom, rgb(239,239,239) 0%, rgb(187,187,187) 72%) !important;
+            background-color:rgb(255,173,10) !important;
+            -moz-opacity:.90; filter:alpha(opacity=90); opacity:.90; }
+
+            a:link {color: white; text-decoration:none;}
+            a:visited {text-decoration:none;}
+            a:hover {text-decoration:underline;}
+            a:active {text-decoration:underline;}
+        </style>
+        <div id="menu">
+            <ul>
+                <li><a href="#" title="Home" class="active">Home</a></li>
+                <li><a href="download.jsf" title="Download">Download</a></li>
+                <li><a href="#" title="About">About</a></li>
+            </ul>
+        </div>
+    </head>
+
+    <body onunload="GUnload()" style="color: white; font: bold 11px Helvetica, Sans-Serif; background-color:#202020; height: 100%">
+        <div id="map" style="width: 95%; margin: 0px auto; background-color:rgba(62,62,62,0.8); border-radius: 8px;-moz-border-radius: 8px;-webkit-border-radius: 8px;border: 1px solid rgba(122,122,122,0.8);">
+            <div style="padding:25px">
+                <h:form>
+                    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyDK85MNeoqCDyFpY9loPCeirNZyEoXxqVc" type="text/javascript"></script>
+                    <m:map width="100%" height="80%" address="USA" zoom="4">
+                        <ui:repeat var="loc" value="#{geoFactory.locations}">
+                            <m:marker latitude="${fn:split(loc, '~')[0]}" longitude="${fn:split(loc, '~')[1]}">
+                                <m:htmlInformationWindow htmlText="lat: ${fn:split(loc, '~')[0]} long: ${fn:split(loc, '~')[1]}" />
+                            </m:marker>
+                        </ui:repeat>
+                    </m:map>
+                </h:form>
+            </div>
+        </div>
+        <div style="display:inline; width:100%"><div id="bnav" style="margin-left:40%; display:inline; font: 700 13px Helvetica, Sans-Serif; padding:5px;"><a href="#">Home</a> : <a href="#">Download</a> : <a href="#">About</a></div><div style="display:inline; margin-left:15%">Copyright &copy; 2012 CopMarker - All Rights Reserved</div></div>
+    </body>
+
+</ui:composition>
+
+
+</html>
